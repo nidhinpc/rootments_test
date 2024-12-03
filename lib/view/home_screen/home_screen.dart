@@ -3,7 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:rootments_test/controller/home_screen_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String employeeId;
+  final String email;
+  const HomeScreen({Key? key, required this.employeeId, required this.email})
+      : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,8 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // Fetch data when the screen initializes
-    Future.microtask(() =>
-        Provider.of<HomeScreenController>(context, listen: false).getData());
+    Future.microtask(
+        () => Provider.of<HomeScreenController>(context, listen: false).getData(
+              employeeId: widget.employeeId,
+              email: widget.email,
+            ));
   }
 
   @override
@@ -54,9 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text('Email: ${item.data?.emailId ?? 'N/A'}'),
                       Text('Branch: ${item.data?.branchName ?? 'N/A'}'),
                       Text('Designation: ${item.data?.designation ?? 'N/A'}'),
+                      Text('locCode : ${item.data?.locCode ?? 'N/A'}'),
                     ],
                   ),
-                  trailing: Text(item.data?.employeeId ?? ''),
+                  trailing:
+                      Text('Employee ID: ${item.data?.employeeId ?? 'N/A'}'),
                 ),
               );
             },

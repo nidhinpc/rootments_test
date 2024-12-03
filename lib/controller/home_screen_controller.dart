@@ -6,10 +6,14 @@ import 'package:rootments_test/model/api_model.dart';
 
 class HomeScreenController with ChangeNotifier {
   List<Apimodel?> dataList = [];
+  bool isLoading = false;
 
-  Future getData() async {
+  Future getData({required String employeeId, required String email}) async {
+    isLoading = true;
+    notifyListeners();
+
     final url = Uri.parse(
-        "https://script.google.com/macros/s/AKfycbxbG3Zrp8cuGmVMUtH3MB5JIOulR2nZ7dc81d67toYJNIupxuxjtdJAPGYmTgWs9dLT/exec?employeeId=TEST&email=nidhinpc66666@gmail.com");
+        "https://script.google.com/macros/s/AKfycbxbG3Zrp8cuGmVMUtH3MB5JIOulR2nZ7dc81d67toYJNIupxuxjtdJAPGYmTgWs9dLT/exec?employeeId=$employeeId&email=$email");
 
     try {
       final response = await http.get(url);
@@ -28,5 +32,7 @@ class HomeScreenController with ChangeNotifier {
     } catch (e) {
       print('Exception: $e');
     }
+    isLoading = false;
+    notifyListeners();
   }
 }
